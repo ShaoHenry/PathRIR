@@ -216,3 +216,18 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# PathRIR-generated data and outputs
+results/
+data/*
+!data/README.md
+*.npz
+*.wav
+*.png
+*.pdf
+*.zip
+
+# Local IDE and OS files
+.idea/
+.vscode/
+.DS_Store
