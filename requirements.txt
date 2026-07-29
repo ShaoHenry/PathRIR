@@ -1,0 +1,5 @@
+numpy
+torch
+pyroomacoustics>=0.7.7
+soundfile
+tqdm
