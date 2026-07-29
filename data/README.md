@@ -20,10 +20,10 @@ python build_ism_pruning_dataset.py \
   --dead-negatives-ratio 1.0 \
   --seed 0
 
-# Held-out test set: 100 rooms
+# Test set: 20 rooms
 python build_ism_pruning_dataset.py \
   --out-dir ./data/iwaenc_testset_order10 \
-  --num-configs 100 \
+  --num-configs 20 \
   --max-order 10 \
   --fs 8000 \
   --rir-duration 0.5 \
