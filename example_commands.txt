@@ -33,7 +33,7 @@ python build_ism_pruning_dataset.py \
   --dead-negatives-ratio 1.0 \
   --seed 0
 
-# Held-out test set
+# Test set
 
 python build_ism_pruning_dataset.py \
   --out-dir ./data/iwaenc_testset_order10 \
