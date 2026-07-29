@@ -8,8 +8,7 @@ dependencies:
 
 The examples use a maximum reflection order of 10, an 8 kHz sampling rate,
 0.5-second RIRs, and two microphones. The data commands create 1,000 training
-rooms and 100 held-out test rooms. The evaluation commands process the first
-20 test rooms; change --max-files if you want a different number.
+rooms and 20 test rooms. Change --max-files if you want a different number.
 
 Order-10 dataset generation can be demanding. Before starting the full run,
 try one room with --num-workers 1. For the full dataset, choose the worker
@@ -38,7 +37,7 @@ python build_ism_pruning_dataset.py \
 
 python build_ism_pruning_dataset.py \
   --out-dir ./data/iwaenc_testset_order10 \
-  --num-configs 100 \
+  --num-configs 20 \
   --max-order 10 \
   --fs 8000 \
   --rir-duration 0.5 \
@@ -115,15 +114,15 @@ python evaluate_pathrir.py \
   --min-keep-count-after 48 \
   --budget-score importance \
   --budget-relative-to visible \
-  --full-ism-mode pyroom_extract \
+  --full-ism-mode true_expand \
   --comp-gain 1.0 \
   --comp-start-ms 40 \
   --timing-repeats 3 \
   --device cuda
 
-This run writes results for Self-Full-ISM, Prune-RIR, and PathRIR, so the
-pruning-only result is already included. Omit --comp-ckpt if you only need
-Self-Full-ISM and Prune-RIR. Add --save-rir-wavs to export the RIRs as audio.
+* This run writes results for Self-Full-ISM, Prune-RIR, and PathRIR, so the
+pruning-only result is already included.
+* Add --save-rir-wavs to export the RIRs as audio.
 
 
 4. Run the reflection-order sweep (orders 1-10)
@@ -146,7 +145,7 @@ for K in 1 2 3 4 5 6 7 8 9 10; do
     --min-keep-count-after 48 \
     --budget-score importance \
     --budget-relative-to visible \
-    --full-ism-mode pyroom_extract \
+    --full-ism-mode true_expand \
     --comp-gain 1.0 \
     --comp-start-ms 40 \
     --measure-pyroom-runtime \
@@ -161,13 +160,6 @@ Evaluation notes
 
 - Use --no-mem-profiling for timing comparisons. Memory tracing adds overhead
   to the Python pruning loop.
-- --full-ism-mode pyroom_extract builds the full image-source set with
-  pyroomacoustics and accumulates the RIR with the PathRIR backend. This is the
-  practical choice at high reflection orders.
-- --full-ism-mode stored_nodes reuses the visible nodes saved in each dataset
-  file and measures accumulation only.
-- --full-ism-mode true_expand builds the full tree with the polygon engine.
-  Its memory and runtime grow quickly, so it is intended for low orders.
 - By default, the pyroomacoustics reference RIR is read from the dataset. Add
   --measure-pyroom-runtime when you also want to rebuild and time that RIR.
 - Evaluation writes detailed per-room results, long-format paper metrics, a
