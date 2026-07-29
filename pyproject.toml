@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pathrir"
+version = "0.1.0"
+description = "Physics-guided path pruning and late-tail compensation for fast room impulse response simulation"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.9"
+authors = [
+  { name = "Shaoheng Xu" },
+  { name = "Chunyi Sun" },
+]
+dependencies = [
+  "numpy",
+  "torch",
+]
+
+[project.optional-dependencies]
+full = ["pyroomacoustics>=0.7.7", "soundfile", "tqdm"]
+
+[tool.setuptools]
+packages = ["pathrir"]
+py-modules = ["polygon_ism_engine", "evaluate_pathrir"]
+
+[tool.setuptools.package-data]
+pathrir = ["checkpoints/*.pt"]
